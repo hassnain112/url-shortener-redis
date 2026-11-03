@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/url")
@@ -27,5 +28,14 @@ public class UrlController {
         String originalUrl = service.getOrignalSource(url);
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();
     }
+
+    @GetMapping("/getclicks/{shortCode}")
+    public Map<String, Object> stats(@PathVariable String shortCode) {
+        return Map.of(
+                "Short Code", shortCode,
+                "Clicks", service.getClicks(shortCode)
+        );
+    }
+
 
 }
